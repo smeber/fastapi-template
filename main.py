@@ -58,18 +58,24 @@ async def docs_redirect():
 
 
 class MyPayload(BaseModel):
+    #integer_field: int
+    are_you_happy: bool
     text_field: str
-    integer_field: int | None = None
 
 
 @app.post("/post-something")
-async def post_something_for_sanne(payload: MyPayload, dependencies=Depends(required_headers)):
+async def post_something(payload: MyPayload, dependencies=Depends(required_headers)):
     """POST Something. This method is meant for you to send the data of the registration in this format, so that it will be stored in the database. """
     
     # do something with input_data
-    new_string = payload.text_field + " Wessel is here " + str(payload.integer_field)
+    #new_string = payload.text_field + " Wessel is here " + str(payload.integer_field)
     
-    return JSONResponse(status_code=200, content={"message": "Success", "new_string": new_string})
+    if payload.text_field == 'hello':
+        output = 'hello to you as well'
+    else:
+        output = 'bye bye'
+
+    return JSONResponse(status_code=200, content={"message": "Success", "output": output})
 
 
 @app.get("/get-something")
@@ -81,6 +87,29 @@ async def get_something(id: int, api_key: str = Depends(key_query_scheme)):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     return JSONResponse(status_code=200, content={"message": f"this is the data of registration {id}"})
+
+@app.get("/what-will-we-eat-today")
+async def get_something(happiness: int):
+    """GET Your Awesome Food Of Today. Choose a number of 1 to 5."""
+    
+    if happiness > 5 or happiness < 1:
+        raise HTTPException(status_code=422, detail="The number is too big or too small")
+    # check API key
+    # if api_key != os.environ["API_KEY"]:
+    #     raise HTTPException(status_code=401, detail="Unauthorized")
+
+    if happiness == 1:
+        output = 'chocolate'
+    elif happiness == 2:
+        output = 'pizza'
+    elif happiness == 3:
+        output = 'couscous'
+    elif happiness == 4:
+        output = 'salad'
+    else:
+        output = 'ice cream'
+    
+    return JSONResponse(status_code=200, content={"message": f"The best food for you is: {output}"})
 
 
 if __name__ == "__main__":
