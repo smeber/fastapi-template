@@ -107,7 +107,7 @@ async def get_something(happiness: int):
     elif happiness == 4:
         output = 'salad'
     else:
-        output = 'ice cream'
+        output = 'ice cream!!!!'
     
     return JSONResponse(status_code=200, content={"message": f"The best food for you is: {output}"})
 
