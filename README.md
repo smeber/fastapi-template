@@ -28,7 +28,6 @@ Template repo for FastAPI. Includes CI/CD on Azure Web App using Github Actions.
 1. Create a new App Service Plan in Azure, or choose a pre-existing one.
 2. Create a new Web App in Azure:
    * choose a meaningful name, e.g. `fastapi-template-jacopo`
-   * select `Publish`: `Docker Container`
    * select `Operating System`: `Linux`
    * select `Region`: `West Europe`
    * select the App Service Plan you created in step 1
